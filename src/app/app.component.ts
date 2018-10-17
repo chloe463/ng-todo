@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Todo } from './entities/todo';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'ng-todo';
+  text: string;
+
+  todos: Todo[] = [
+    { task: 'todo1', finished: false },
+    { task: 'todo2', finished: false },
+    { task: 'todo3', finished: false }
+  ];
+
+  addTodo(event) {
+    this.todos = [...this.todos, { task: event, finished: false }];
+  }
 }
