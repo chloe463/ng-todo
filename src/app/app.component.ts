@@ -24,8 +24,10 @@ export class AppComponent implements OnInit {
 
   addTodo(event) {
     const todo = new Todo(event);
-    this.api.addTodo(todo).subscribe(
-      _ => this.api.getTodos().subscribe(v => this.todos = v)
+    this.api.addTodo(todo).pipe(
+      switchMapTo(this.api.getTodos())
+    ).subscribe(
+      v => this.todos = v
     );
   }
 }
