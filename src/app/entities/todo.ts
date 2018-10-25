@@ -1,4 +1,5 @@
 export class Todo {
+  public id: number;
   public task: string;
   public finished: boolean;
 

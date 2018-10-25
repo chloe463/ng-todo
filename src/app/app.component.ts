@@ -1,21 +1,32 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Todo } from './entities/todo';
+
+import { Observable } from 'rxjs';
+import { switchMapTo } from 'rxjs/operators';
+
+import { ApiService } from './services/api.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   text: string;
 
-  todos: Todo[] = [
-    { task: 'todo1', finished: false },
-    { task: 'todo2', finished: false },
-    { task: 'todo3', finished: false }
-  ];
+  todos$: Observable<Todo[]>;
+
+  constructor(private api: ApiService) {
+  }
+
+  ngOnInit() {
+    this.todos$ = this.api.getTodos();
+  }
 
   addTodo(event) {
-    this.todos = [...this.todos, { task: event, finished: false }];
+    const todo = new Todo(event);
+    this.todos$ = this.api.addTodo(todo).pipe(
+      switchMapTo(this.api.getTodos())
+    );
   }
 }

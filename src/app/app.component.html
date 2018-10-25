@@ -1,4 +1,4 @@
 <div>
   <app-todo-input (addTodo)="addTodo($event)"></app-todo-input>
-  <app-todo-list [todos]="todos"></app-todo-list>
+  <app-todo-list [todos]="todos$ | async"></app-todo-list>
 </div>
